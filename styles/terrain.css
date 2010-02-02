@@ -1,0 +1,41 @@
+body{
+	margin: 10px;
+	padding: 0;
+	background: #fff;
+}
+
+ol, ul{
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+form{
+	width: 450px;
+}
+
+fieldset{
+	padding: 5px;
+}
+
+legend{
+	font-weight: bold;
+}
+
+ol.options li{
+	padding: 8px;
+	margin-bottom: 15px;
+}
+
+ol input, select{
+	float: right;
+	clear: both;
+}
+
+label{
+	float: left;
+}
+
+.hidden{
+	display: none;
+}

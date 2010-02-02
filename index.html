@@ -1,0 +1,94 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+	<head>
+		<title>Canvas Terrain Generator</title>
+		<link rel="stylesheet" href="styles/terrain.css" type="text/css"/>
+	</head>
+	<body>
+		<canvas id="canvas" width="10" height="10"></canvas>
+		<canvas id="voxelview" width="10" height="10"></canvas>
+		<br/>
+		<input type='button' id='savemap' type='button' value='Save Heightmap' class='hidden'/>
+		<br/>
+		<form>
+			<fieldset>
+			<legend>Height Map Properties</legend>
+				<ol class='options'>
+					<li>
+						<input type='text' name='terdim' id='terdim'/>
+						<label for='terdim'>
+							Map Dimension (Power of 2)
+						</label>
+					</li>
+					<li>
+						<input type='text' name='roughness' id='roughness'/>
+						<label for='roughness'>
+							Roughness
+						</label>
+					</li>
+					<li>
+						<input type='text' name='unitsize' id='unitsize'/>
+						<label for='unitsize'>
+							UnitSize (Power of 2)
+						</label>
+					</li>
+					<li>
+						<select id='maptype'>
+							<option value = '2'>Gray Scale</option>
+							<option value = '1'>Color Map (bugged)</option>
+							<option value = '3'>10 Gray Shades</option>
+							<option value = '4'>2 Shades</option>
+							<option value = '5'>Plasma</option>
+						</select>
+						<label for='maptype'>
+							Map Type
+						</label>
+					</li>
+					<li>
+						<input type='checkbox' name='perspective' id='perspective'/>
+						<label for='perspective'>
+							Generate Voxel View (Move with arrows &amp; plus, minus)
+						</label>
+					</li>
+				</ol>
+			</fieldset>
+			<fieldset>
+				<legend>Shadow Map Properties</legend>
+				<ol class='options'>
+					<li>
+						<input type='checkbox' name='shadowmap' id='shadowmap'/>
+						<label for='shadowmap'>
+							Generate Shadowmap (slow)
+						</label>
+					</li>
+					<li>
+						<input type='text' name='sunx' id='sunx'/>
+						<label for='sunx'>
+							Sun X Pos
+						</label>
+					</li>
+					<li>
+						<input type='text' name='suny' id='suny'/>
+						<label for='suny'>
+							Sun Y Pos
+						</label>
+					</li>
+				</ol>
+			</fieldset>
+			<input type='button' value='Generate' id='generate'/>
+		</form>
+		<script type="text/javascript" src='js/canvasTerrain.js'></script>
+		
+		<script type="text/javascript">
+		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+		</script>
+		<script type="text/javascript">
+		try {
+		var pageTracker = _gat._getTracker("UA-1702440-11");
+		pageTracker._trackPageview();
+		} catch(err) {}
+		</script>
+	</body>
+</html>
