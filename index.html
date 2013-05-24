@@ -5,6 +5,7 @@
 		<title>Canvas Terrain Generator</title>
 		<link rel="stylesheet" href="styles/terrain.css" type="text/css"/>
 	</head>
+
 	<body>
 		<canvas id="canvas" width="10" height="10"></canvas>
 		<canvas id="voxelview" width="10" height="10"></canvas>
@@ -33,6 +34,11 @@
 							UnitSize (Power of 2)
 						</label>
 					</li>
+				</ol>
+			</fieldset>
+			<fieldset>
+				<legend>Render Properties</legend>
+				<ol class='options'>
 					<li>
 						<select id='maptype'>
 							<option value = '2'>Gray Scale</option>
@@ -79,7 +85,7 @@
 			<input type='button' value='Generate' id='generate'/>
 		</form>
 		<script type="text/javascript" src='js/canvasTerrain.js'></script>
-		
+		<script type="text/javascript" src='js/index.js'></script>
 		<script type="text/javascript">
 		var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
 		document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
