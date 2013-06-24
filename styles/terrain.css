@@ -1,41 +1,13 @@
-body{
-	margin: 10px;
-	padding: 0;
-	background: #fff;
-}
-
-ol, ul{
-	list-style: none;
-	margin: 0;
-	padding: 0;
-}
-
-form{
-	width: 450px;
-}
-
-fieldset{
-	padding: 5px;
-}
-
-legend{
-	font-weight: bold;
-}
-
-ol.options li{
-	padding: 8px;
-	margin-bottom: 15px;
-}
-
-ol input, select{
-	float: right;
-	clear: both;
-}
-
-label{
-	float: left;
-}
+html{background:#ccc;}
 
 .hidden{
 	display: none;
 }
+
+#imgSave{
+  -moz-box-shadow:    1px 2px 3px 1px #000;
+  -webkit-box-shadow: 1px 2px 3px 1px #000;
+  box-shadow:         1px 2px 3px 1px #000;
+}
+
+canvas{display:none;}
