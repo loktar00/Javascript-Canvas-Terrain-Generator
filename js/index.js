@@ -8,8 +8,8 @@ var mapCanvas = document.getElementById('canvas'),
       unitSize : 1,
       mapType : 1,
       genShadows : false,
-      sunX : 1000,
-      sunY : 1000,
+      sunX : -100,
+      sunY : -100,
       sunZ : 4,
       render : function(){
         terrainGeneration();
@@ -150,20 +150,17 @@ function terrainGeneration(){
     
     
     // colormap colors
-    var waterStart={r:39,g:50,b:63},
-        waterEnd={r:10,g:20,b:40},
-        sandStart={r:98,g:105,b:83},
-        sandEnd={r:189,g:189,b:144},
-        grassStart={r:67,g:100,b:18},
-        grassEnd={r:22,g:38,b:3},
-        mtnEnd={r:67,g:80,b:18},
-        mtnStart={r:60,g:56,b:31},
-        rockStart={r:130,g:130,b:130},
-        rockEnd={r:90,g:90,b:90},
-        snowStart={r:200,g:200,b:200},
-        snowEnd={r:255,g:255,b:255};
-    
-    
+    var waterStart={r:10,g:20,b:40},
+        waterEnd={r:39,g:50,b:63},
+        grassStart={r:22,g:38,b:3},
+        grassEnd={r:67,g:100,b:18},
+        mtnEnd={r:60,g:56,b:31},
+        mtnStart={r:67,g:80,b:18},
+        rockStart={r:90,g:90,b:90},
+        rockEnd={r:130,g:130,b:130},
+        snowStart={r:255,g:255,b:255},
+        snowEnd={r:200,g:200,b:200};
+
     for(x = 0; x <= size; x += unitSize){
       for(y = 0; y <= size; y += unitSize){
         colorFill = {r : 0, g : 0, b : 0};
@@ -173,14 +170,12 @@ function terrainGeneration(){
             var  data = mapData[x][y];
             if (data >= 0 && data <= 0.3) {
               colorFill = fade(waterStart, waterEnd, 30, parseInt(data * 100, 10));
-            } else if (data > 0.3 && data <= 0.35) {
-              colorFill = fade(sandStart, sandEnd, 5, parseInt(data * 100, 10) - 30);
-            } else if (data > 0.35 && data <= 0.8) {
-              colorFill = fade(grassStart, grassEnd, 45, parseInt(data * 100, 10) - 35);
-            } else if (data > 0.8 && data <= 0.95) {
-              colorFill = fade(mtnStart, mtnEnd, 15, parseInt(data * 100, 10) - 80);
+            } else if (data > 0.3 && data <= 0.7) {
+              colorFill = fade(grassStart, grassEnd, 45, parseInt(data * 100, 10) - 30);
+            } else if (data > 0.7 && data <= 0.95) {
+              colorFill = fade(mtnStart, mtnEnd, 15, parseInt(data * 100, 10) - 70);
             } else if (data > 0.95 && data <= 1) {
-              colorFill = fade(rockStart, rockEnd, 5, parseInt(data * 100, 10) - 98);
+              colorFill = fade(rockStart, rockEnd, 5, parseInt(data * 100, 10) - 95);
             }
               break;
           case 2: // Standard
@@ -245,24 +240,18 @@ function terrainGeneration(){
     var strDataURI = mapCanvas.toDataURL();
     imgSave.src = strDataURI;
     
-    // utility for color interpolation
-    function fade(colorStart, colorEnd, totalSteps, step) {
-      var rStart = colorStart.r,
-          rEnd = colorEnd.r,
-          gStart = colorStart.g,
-          gEnd = colorEnd.g,
-          bStart = colorStart.b,
-          bEnd = colorEnd.b,
-          r = rEnd + (~~ ((rStart - rEnd) / totalSteps) * step),
-          g = gEnd + (~~ ((gStart - gEnd) / totalSteps) * step),
-          b = bEnd + (~~ ((bStart - bEnd) / totalSteps) * step);
-      
+    function fade(startColor, endColor, steps, step){
+      var scale = step / steps,
+            r = startColor.r + scale * (endColor.r - startColor.r),
+            b = startColor.b + scale * (endColor.b - startColor.b),
+            g = startColor.g + scale * (endColor.g - startColor.g);
+
       return {
         r: r,
         g: g,
         b: b
-      };
-    }
+      }
+    };
   }
 }
 
