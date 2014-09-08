@@ -7,6 +7,8 @@ var mapCanvas = document.getElementById('canvas'),
       mapDimension : 256,
       unitSize : 1,
       mapType : 1,
+      smoothness : 0.1,
+      smoothIterations : 0,
       genShadows : false,
       sunX : -100,
       sunY : -100,
@@ -50,6 +52,11 @@ function terrainGeneration(){
   
   map = generateTerrainMap(mapDimension, unitSize, roughness);
   
+  // Smooth terrain
+  for(var i = 0; i < settings.smoothIterations; i++){
+    map = smooth(map, mapDimension, settings.smoothness);
+  }
+
   // Draw everything after the terrain vals are generated
   drawMap(mapDimension, "canvas", map, mapType);
   
@@ -66,6 +73,39 @@ function terrainGeneration(){
     }else{
       return parseInt(n, 10);
     }
+  }
+
+  // smooth function
+  function smooth(data, size, amt) {
+      /* Rows, left to right */
+      for (var x = 1; x < size; x++){
+          for (var z = 0; z < size; z++){
+              data[x][z] = data[x - 1][z] * (1 - amt) + data[x][z] * amt;
+          }
+      }
+
+      /* Rows, right to left*/
+      for (x = size - 2; x < -1; x--){
+          for (z = 0; z < size; z++){
+              data[x][z] = data[x + 1][z] * (1 - amt) + data[x][z] * amt;
+          }
+      }
+
+      /* Columns, bottom to top */
+      for (x = 0; x < size; x++){
+          for (z = 1; z < size; z++){
+              data[x][z] = data[x][z - 1] * (1 - amt) + data[x][z] * amt;
+          }
+      }
+
+      /* Columns, top to bottom */
+      for (x = 0; x < size; x++){
+          for (z = size; z < -1; z--){
+              data[x][z] = data[x][z + 1] * (1 - amt) + data[x][z] * amt;
+          }
+      }
+      
+      return data;
   }
   
   //Create Shadowmap
@@ -156,11 +196,12 @@ function terrainGeneration(){
         grassEnd={r:67,g:100,b:18},
         mtnEnd={r:60,g:56,b:31},
         mtnStart={r:67,g:80,b:18},
-        rockStart={r:90,g:90,b:90},
-        rockEnd={r:130,g:130,b:130},
+        rocamtStart={r:90,g:90,b:90},
+        rocamtEnd={r:130,g:130,b:130},
         snowStart={r:255,g:255,b:255},
         snowEnd={r:200,g:200,b:200};
-
+    
+    
     for(x = 0; x <= size; x += unitSize){
       for(y = 0; y <= size; y += unitSize){
         colorFill = {r : 0, g : 0, b : 0};
@@ -175,7 +216,7 @@ function terrainGeneration(){
             } else if (data > 0.7 && data <= 0.95) {
               colorFill = fade(mtnStart, mtnEnd, 15, parseInt(data * 100, 10) - 70);
             } else if (data > 0.95 && data <= 1) {
-              colorFill = fade(rockStart, rockEnd, 5, parseInt(data * 100, 10) - 95);
+              colorFill = fade(rocamtStart, rocamtEnd, 5, parseInt(data * 100, 10) - 95);
             }
               break;
           case 2: // Standard
@@ -263,6 +304,9 @@ gui.add(settings, 'roughness');
 gui.add(settings, 'mapDimension', [64,128,256,512,1024]);
 gui.add(settings, 'unitSize', [1,2,4] );
 gui.add(settings, 'mapType', {'Color Map' : 1, 'Gray Scale' : 2, '10 Shades' : 3, '2 Shades' : 4, 'Plasma' : 5});
+
+gui.add(settings, 'smoothness', 0, 0.99);
+gui.add(settings, 'smoothIterations');
 
 var shadowSection = gui.addFolder('Shadow Map');
 shadowSection.add(settings, 'genShadows');
