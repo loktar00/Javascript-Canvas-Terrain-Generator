@@ -147,12 +147,13 @@ function terrainGeneration(){
                 pZ = map[x][y];
 
                 while(pX > 0 && pX < mapDimension && pY > 0 && pY < mapDimension && pZ < sunZ){
-                    if((map[round(pX)][round(pY)]) > pZ){
-                        colorFill = {r : 0, g : 0, b : 0, a : 180};
+
+                    if((map[~~(pX)][~~(pY)]) > pZ){
+                        colorFill = {r : 0, g : 0, b : 0, a : 200};
 
                         for (var w = 0; w < unitSize; w++) {
                             for (var h = 0; h < unitSize; h++) {
-                                var pData = (~~ (x+w) + (~~ (y+h) * canvas.width)) * 4;
+                                var pData = (~~ (x + w) + (~~ (y + h) * canvas.width)) * 4;
 
                                 imgData[pData] = colorFill.r;
                                 imgData[pData + 1] = colorFill.g;
@@ -170,9 +171,9 @@ function terrainGeneration(){
             }
         }
     
+
         sCtx.putImageData(img, 0, 0);
         mapCtx.drawImage(shadowCanvas, 0, 0);
-
         var strDataURI = mapCanvas.toDataURL();
         imgSave.src = strDataURI;
     }
