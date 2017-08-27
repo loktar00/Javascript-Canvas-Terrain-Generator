@@ -203,8 +203,8 @@ function terrainGeneration(){
         snowEnd={r:200,g:200,b:200};
     
     
-    for(x = 0; x <= size; x += unitSize){
-        for(y = 0; y <= size; y += unitSize){
+    for(x = 0; x <= size - 1; x += unitSize){
+        for(y = 0; y <= size - 1; y += unitSize){
             colorFill = {r : 0, g : 0, b : 0};
         
             switch(mapType){
