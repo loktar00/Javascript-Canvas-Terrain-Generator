@@ -8,6 +8,25 @@ Generates heightmaps, and shadow maps using JS and canvas.
 
 ### Things that still need to be done
 
-- 	Fix pixels on the left in the rendering code
--	Improve the shadow map rendering
--   Add datgui and pretty up the page a bit.
+- Improve the shadow map rendering
+- modernize primary src files
+
+### Web Component
+
+Use as a web component, source in webcomponent
+
+```
+    <script type="module" src="/height-map.js"></script>
+    <body>
+        <height-map></height-map>
+    </body>
+``
+
+## Options
+
+Attribute     | Options     | Default      | Description
+---           | ---         | ---          | ---
+`size`         | *int*    | `128`        | Power of 2 size of element
+`unit`         | *int*    | `1`         | Resolution size of pixels
+`rough`         | *int*    | `5`        | Roughness value for terrain generation
+
