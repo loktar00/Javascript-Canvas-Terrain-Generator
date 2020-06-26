@@ -20,7 +20,7 @@ Use as a web component, source in webcomponent
     <body>
         <height-map></height-map>
     </body>
-``
+```
 
 ## Options
 
