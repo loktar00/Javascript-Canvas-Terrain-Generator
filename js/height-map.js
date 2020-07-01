@@ -3,7 +3,7 @@ export default class HeightMap {
         this.mapDimension = mapDimension;
         this.unitSize = unitSize;
         this.roughness = roughness;
-        this.tile = true;
+        this.tile = tile;
 
         this.map = Array(mapDimension + 1).fill(0).map(el => new Array(mapDimension + 1).fill(0).map(el => 0));
         this.startDisplacement();
@@ -15,7 +15,7 @@ export default class HeightMap {
 
     // Starts off the map generation, seeds the first 4 corners
     startDisplacement = () => {
-        const {map, mapDimension, tile} = this;
+        const {map, mapDimension} = this;
 
         // top left
         map[0][0] = Math.random();
