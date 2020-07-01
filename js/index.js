@@ -1,3 +1,5 @@
+import HeightMap from './height-map.js';
+
 window.onload = terrainGeneration;
 
 var mapCanvas = document.getElementById('canvas'),
@@ -24,17 +26,15 @@ function terrainGeneration(){
     var mapDimension,
         unitSize = 0, // Power of 2
         roughness = 0,
-        genPerspective = 0,
-        genShadows = 0, 
+        genShadows = 0,
         sunX = settings.sunX,
         sunY = settings.sunY,
         sunZ = settings.sunZ,
         mapType = 0,
         map = 0,
         mapCanvas = document.getElementById('canvas'),
-        mapCtx = mapCanvas.getContext("2d"),
-        voxCanvas = document.getElementById('voxelview');
-  
+        mapCtx = mapCanvas.getContext("2d");
+
     // init
     roughness = parseInt(settings.roughness, 10);
     mapDimension = parseInt(settings.mapDimension, 10);
@@ -42,18 +42,17 @@ function terrainGeneration(){
     mapType = parseInt(settings.mapType, 10);
 
     genShadows = settings.genShadows;
-  
-    if(genShadows){
+
+    if (genShadows) {
         sunX = parseInt(settings.sunX, 10);
         sunY = parseInt(settings.sunY, 10);
         sunZ = parseInt(settings.sunZ, 10);
     }
-  
+
     mapCanvas.width = mapDimension;
     mapCanvas.height = mapDimension;
-  
-    map = generateTerrainMap(mapDimension, unitSize, roughness);
-  
+    map = new HeightMap(mapDimension, unitSize, roughness).mapData;
+
     // Smooth terrain
     for(var i = 0; i < settings.smoothIterations; i++){
         map = smooth(map, mapDimension, settings.smoothness);
@@ -65,8 +64,8 @@ function terrainGeneration(){
     if(genShadows){
         drawShadowMap(mapDimension, sunX, sunY, sunZ);
     }
-  
-  
+
+
     // Round to nearest pixel
     function round(n) {
         if (n-(parseInt(n, 10)) >= 0.5){
@@ -108,7 +107,7 @@ function terrainGeneration(){
 
         return data;
     }
-  
+
     //Create Shadowmap
     function drawShadowMap(size, sunPosX, sunPosY, sunHeight){
         var shadowCanvas = document.createElement("canvas"),
@@ -119,17 +118,17 @@ function terrainGeneration(){
             sunX, sunY, sunZ,
             pX, pY, pZ,
             mag, dX, dY, dZ;
-    
+
         shadowCanvas.width = shadowCanvas.height = mapDimension;
 
         var img = sCtx.createImageData(shadowCanvas.width, shadowCanvas.height),
             imgData = img.data;
-    
+
         // Suns position
         sunX = sunPosX;
         sunY = sunPosY;
         sunZ = sunHeight;
-    
+
         for(x = 0; x < mapDimension; x += unitSize){
             for(y = 0; y < mapDimension; y += unitSize){
                 dX = sunX - x;
@@ -170,14 +169,14 @@ function terrainGeneration(){
                 }
             }
         }
-    
+
 
         sCtx.putImageData(img, 0, 0);
         mapCtx.drawImage(shadowCanvas, 0, 0);
         var strDataURI = mapCanvas.toDataURL();
         imgSave.src = strDataURI;
     }
-  
+
   // Draw the map
   function drawMap(size, canvasId, mapData, mapType){
     var canvas = document.getElementById(canvasId),
@@ -188,8 +187,8 @@ function terrainGeneration(){
         colorFill = 0,
         img = ctx.createImageData(canvas.height, canvas.width),
         imgData = img.data;
-    
-    
+
+
     // colormap colors
     var waterStart={r:10,g:20,b:40},
         waterEnd={r:39,g:50,b:63},
@@ -201,12 +200,12 @@ function terrainGeneration(){
         rocamtEnd={r:130,g:130,b:130},
         snowStart={r:255,g:255,b:255},
         snowEnd={r:200,g:200,b:200};
-    
-    
+
+
     for(x = 0; x <= size - 1; x += unitSize){
         for(y = 0; y <= size - 1; y += unitSize){
             colorFill = {r : 0, g : 0, b : 0};
-        
+
             switch(mapType){
                 case 1: // Color map
                     var  data = mapData[x][y];
@@ -234,7 +233,7 @@ function terrainGeneration(){
                     }else if(mapData[x][y] > 0.5) {
                         mapData[x][y] = 220;
                     }
-                  
+
                     var grey = mapData[x][y];
                     colorFill = { r :  grey, g : grey, b : grey};
                     break;
@@ -262,7 +261,7 @@ function terrainGeneration(){
                     colorFill = { r :  ~~r, g : ~~g, b : ~~b};
                     break;
             }
-                
+
             for (var w = 0; w <= unitSize; w++) {
                 for (var h = 0; h <= unitSize; h++) {
                     var pData = ( ~~(x + w) + ( ~~(y + h) * canvas.width)) * 4;
@@ -275,13 +274,13 @@ function terrainGeneration(){
             }
         }
     }
-    
+
     ctx.putImageData(img, 0, 0);
-    
+
     // Add to an image so its easier to save
     var strDataURI = mapCanvas.toDataURL();
     imgSave.src = strDataURI;
-    
+
     function fade(startColor, endColor, steps, step){
         var scale = step / steps,
             r = startColor.r + scale * (endColor.r - startColor.r),
